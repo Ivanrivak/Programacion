@@ -1,5 +1,6 @@
 package auxiliar;
 
+import java.util.Arrays;
 import java.util.Random;
 import modelo.Datos;
 import modelo.Estudiante;
@@ -179,19 +180,21 @@ public class Practica {
 			contador++;
 		}
 	}
+
 	public int[] convierteCadenaANumeros(String[] cadenas) {
 		int[] resultado = new int[cadenas.length];
 		for (int i = 0; i < cadenas.length; i++) {
 			try {
-			resultado[i]= Integer.parseInt(cadenas[i]);
-			}catch(NumberFormatException e){
-				resultado[i]=-1;
+				resultado[i] = Integer.parseInt(cadenas[i]);
+			} catch (NumberFormatException e) {
+				resultado[i] = -1;
 			}
 		}
 		return resultado;
 	}
-	public float calculaSaldo(float saldo,String[] movimientos) {
-		float resultado=saldo;	
+
+	public float calculaSaldo(float saldo, String[] movimientos) {
+		float resultado = saldo;
 		for (int i = 0; i < movimientos.length; i++) {
 			try {
 				resultado += Float.parseFloat(movimientos[i]);
@@ -200,41 +203,45 @@ public class Practica {
 		}
 		return resultado;
 	}
+
 	public int sumaDigito(int numero) {
-		int resultado=0;
-		while(numero !=0) {
-			resultado+= numero%10;
-					numero=numero/10;
+		int resultado = 0;
+		while (numero != 0) {
+			resultado += numero % 10;
+			numero = numero / 10;
 		}
 		return resultado;
 	}
+
 	public void ordenaEnteros(int[] numeros) {
 		int aux;
 		for (int i = 0; i < numeros.length; i++) {
-			for (int j = i+1; j < numeros.length; j++) {
-				if(numeros[i] > numeros[j]) {
-					aux= numeros[i];
-					numeros[i]=numeros[j];
-					numeros[j]=aux;
-				}	
+			for (int j = i + 1; j < numeros.length; j++) {
+				if (numeros[i] > numeros[j]) {
+					aux = numeros[i];
+					numeros[i] = numeros[j];
+					numeros[j] = aux;
+				}
 			}
 		}
 		for (int numero : numeros) {
 			System.out.println(numero);
 		}
 	}
+
 	public void ordenaCadena(String[] cadenas) {
 		String aux;
-			for (int i = 0; i < cadenas.length; i++) {
-				for (int j = i+1; j < cadenas.length; j++) {
-					if (cadenas[i].compareTo(cadenas[j]) > 0) {
-						aux = cadenas[i];
-						cadenas[i]=cadenas[j];
-						cadenas[j]=aux;
-					}
-				}         
+		for (int i = 0; i < cadenas.length; i++) {
+			for (int j = i + 1; j < cadenas.length; j++) {
+				if (cadenas[i].compareTo(cadenas[j]) > 0) {
+					aux = cadenas[i];
+					cadenas[i] = cadenas[j];
+					cadenas[j] = aux;
+				}
 			}
+		}
 	}
+
 	public void ordenaEstudiantes(Estudiante[] estudiantes) {
 		for (int i = 0; i < estudiantes.length - 1; i++) {
 			for (int j = i + 1; j < estudiantes.length; j++) {
@@ -245,5 +252,69 @@ public class Practica {
 				}
 			}
 		}
+	}
+
+	// Mezclar arrays de enteros eficientemente
+	public int[] mezclaListas(int[] lista1, int[] lista2) {
+		int[] mezcla = new int[lista1.length + lista2.length];
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		while (i < mezcla.length) {
+			if (j < lista1.length) {
+				mezcla[i] = lista1[j];
+				j++;
+			} else if (k < lista2.length) {
+				mezcla[i] = lista2[k];
+				k++;
+			}
+			i++;
+		}
+		Arrays.sort(mezcla);
+		return mezcla;
+	}
+
+	// Mezclar arrays de enteros menos eficiente
+	public int[] mezclaListas2(int[] lista1, int[] lista2) {
+		Arrays.sort(lista1);
+		Arrays.sort(lista2);
+		int[] mezcla = new int[lista1.length + lista2.length];
+		int i = 0, j = 0, k = 0;
+		while (i < mezcla.length) {
+			if (j < lista1.length) {
+				if (lista1[j] > lista2[k]) {
+					mezcla[i] = lista2[k++];
+				} else if (lista1[j] == lista2[k]) {
+					mezcla[i] = lista2[k++];
+				} else if (lista1[j] < lista2[k]) {
+					mezcla[i] = lista1[j++];
+				}
+			} else {
+				mezcla[i] = lista2[k++];
+			}
+			i++;
+		}
+		return mezcla;
+	}
+
+	// mezclar arrays de enteros menos eficiente por profe
+	public int[] mezclaListas3(int[] lista1, int[] lista2) {
+		Arrays.sort(lista1);
+		Arrays.sort(lista2);
+		int i = 0, j = 0, k = 0;
+		int[] resultado = new int[lista1.length + lista2.length];
+		while (lista1[i] != Integer.MAX_VALUE || lista2[j] != Integer.MAX_VALUE) {
+			if (lista1[i] < lista2[j]) {
+				resultado[k] = lista1[i++];
+			} else {
+				resultado[k] = lista2[j++];
+			}
+			k++;
+			if (i == lista1.length)
+				lista1[--i] = Integer.MAX_VALUE;
+			if (j == lista2.length)
+				lista2[--j] = Integer.MAX_VALUE;
+		}
+		return resultado;
 	}
 }

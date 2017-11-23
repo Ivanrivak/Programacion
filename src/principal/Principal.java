@@ -13,6 +13,12 @@ import modelo.Estudiante;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
+		int[] lista1 = {29,8,17,24,14,6,35};
+		int[] lista2 = {50,40,8,23};
+		int[] mezcla= practica.mezclaListas3(lista1, lista2);
+		for (int mez : mezcla) {
+			System.out.println(mez);
+		}
 		/*
 		 * String[] cadenas = { "123", "42", "6x3", "111" }; int[] enteros =
 		 * practica.convierteCadenaANumeros(cadenas); for (int entero : enteros) {
@@ -22,13 +28,13 @@ public class Principal {// método por el que debe empezar la ejecución
 		String[] movimientos = { "150.0f", "-25.0f","3x","40.0f", "-15.0f" };
 		System.out.println("saldo final: " + practica.calculaSaldo(saldo, movimientos) + "€");*/
 		//System.out.println(practica.sumaDigito(53023423));
-		int[] numeros = {29,8,17,24,14,6,35};
+	//	
 	/*	String[] cadenas = {"Pipas","Pal","Pajaro","Vente","Para","Mi","Casa","Que","Tengo","Golosinas"};
 		practica.ordenaCadena(cadenas);
 		for (String cadena : cadenas) {
 			System.out.println(cadena);
 		}*/
-		  Estudiante estAnonimo = new Estudiante(123);
+		 /* Estudiante estAnonimo = new Estudiante(123);
 		  Estudiante estudiante1 = new Estudiante(111, "44556677G","Carlos", 'M', LocalDate.now(), 187,40 );
 		  Estudiante estudiante2 = new Estudiante(112, "11223344H","Xavier", 'M', LocalDate.now(), 147, 30);
 		  Estudiante estudiante3 = new Estudiante(112, "99887766F","Marcos", 'M', LocalDate.now(), 163,50);
@@ -37,7 +43,7 @@ public class Principal {// método por el que debe empezar la ejecución
 			for (Estudiante estudiante : listaEstudiante) {
 				System.out.println(estudiante);
 			}
-		practica.ordenaEnteros(numeros);
+		practica.ordenaEnteros(numeros);*/
 
 		System.exit(0);
 		// practica.muestraNumerosDe1a1000();
