@@ -317,4 +317,48 @@ public class Practica {
 		}
 		return resultado;
 	}
+
+	public boolean validarNIF(String nif) {
+		String[] Caracteres = { "T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q",
+				"V", "H", "L", "C", "K", "E" };
+		boolean resultado = false;
+		String nif2 = nif.toUpperCase();
+		if (nif2.length() == 9) {
+			int dni = Integer.parseInt(nif2.substring(0, nif2.length() - 1));
+			int resto = dni % 23;
+			char letra2 = nif2.charAt(8);
+			char letra = Caracteres[resto].charAt(0);
+			if (letra2 == letra) {
+				resultado = true;
+			} else {
+				resultado = false;
+			}
+		}
+		return resultado;
+	}
+
+	// LIGA obtener clasificacion a partir de resultados.
+	public int[] obtenerClasificacion(String[][] resultados) {
+		int[] puntosEquipo = new int[5];
+		int golesLocal;
+		int golesVisitante;
+		for (int i = 0; i < resultados.length; i++) {
+			for (int j = 0; j < resultados[i].length; j++) {
+				if (resultados[i][j].indexOf('-') != -1) {
+					String[] goles = resultados[i][j].split("-");
+					golesLocal = Integer.parseInt(goles[0]);
+					golesVisitante = Integer.parseInt(goles[1]);
+					if (golesLocal > golesVisitante) {
+						puntosEquipo[i] += 3;
+					} else if (golesLocal < golesVisitante) {
+						puntosEquipo[j] += 3;
+					} else {
+						puntosEquipo[i] += 1;
+						puntosEquipo[j] += 1;
+					}
+				}
+			}
+		}
+		return puntosEquipo;
+	}
 }
