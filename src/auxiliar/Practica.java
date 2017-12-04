@@ -1,5 +1,6 @@
 package auxiliar;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
 import modelo.Datos;
@@ -373,5 +374,122 @@ public class Practica {
 					equipos[i] = equipos[j];
 					equipos[j] = aux2;
 				}
+	}
+
+	public int[] obtenerClasificacion2(String[][] resultados) {
+		int[] puntosEquipo = new int[5];
+		int golesLocal;
+		int golesVisitante;
+		for (int i = 0; i < resultados.length; i++) {
+			for (int j = 0; j < resultados[i].length; j++) {
+				if (resultados[j][i].indexOf('-') != -1) {
+					String[] goles = resultados[j][i].split("-");
+					golesLocal = Integer.parseInt(goles[0]);
+					golesVisitante = Integer.parseInt(goles[1]);
+					if (golesLocal > golesVisitante) {
+						puntosEquipo[j] += 3;
+					} else if (golesLocal < golesVisitante) {
+						puntosEquipo[i] += 3;
+					} else {
+						puntosEquipo[j] += 1;
+						puntosEquipo[i] += 1;
+					}
+				}
+			}
+		}
+		return puntosEquipo;
+	}
+
+	public Equipo[] obtenerClasificacion3(int[][] puntosJornada) {
+		Equipo[] clasificacion = new Equipo[5];
+		String[] equipo = new Datos().getEquipos();
+		for (int j = 0; j < puntosJornada[0].length; j++) {
+			Equipo e = new Equipo();
+			e.setNombre(null);
+			e.setPuntos(0);
+			for (int i = 0; i < clasificacion.length; i++) {
+				e.setNombre(equipo[j]);
+				e.setPuntos(e.getPuntos() + puntosJornada[i][j]);
+				clasificacion[j] = e;
+			}
+		}
+		return clasificacion;
+	}
+
+	public boolean esPrimo(int numero) {
+		for (int i = 2; i < numero; i++) {
+			if (numero % i == 0)
+				return false;
+		}
+		return true;
+	}
+
+	public int[] numerosPrimos(int cuantos) {
+		int[] primos = new int[cuantos];
+		int i = 0;
+		int j = 1;
+		while (i < cuantos) {
+			if (esPrimo(j))
+				primos[i++] = j;
+			j++;
+		}
+		return primos;
+	}
+
+	public int[] numeroFibonacci(int cuantos) {
+		int[] numeros = new int[cuantos];
+		int x = 0;
+		int y = 1;
+		int z = 0;
+		numeros[0] = x;
+		numeros[1] = y;
+		for (int i = 0; i < numeros.length; i++) {
+			z = x + y;
+			x = y;
+			y = z;
+			numeros[i] = z;
+		}
+		return numeros;
+	}
+
+	public void recorrerMatrizIrregularPorColumna(int[][] matriz) {
+		int JMAX = 0;
+		// obtener el numero maximo de columnas.
+		for (int i = 0; i < matriz.length; i++) {
+			if (matriz[i].length > JMAX)
+				JMAX = matriz[i].length;
+		}
+		// recorrer el array.
+		for (int j = 0; j < JMAX; j++) {
+			for (int i = 0; i < matriz.length; i++) {
+				try {
+					System.out.println("[" + i + "] [" + j + "]: " + matriz[i][j]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
+	}
+
+	public void recorrerMatrizIrregularPorColumna2(Integer[][] matriz) {
+		int JMAX = 0;
+		// obtener el numero maximo de columnas.
+		for (int i = 0; i < matriz.length; i++) {
+			if (matriz[i].length > JMAX)
+				JMAX = matriz[i].length;
+		}
+		// recorrer el array.
+		for (int j = 0; j < JMAX; j++) {
+			for (int i = 0; i < matriz.length; i++) {
+				try {
+					System.out.println("[" + i + "] [" + j + "]: " + matriz[i][j].toString());
+
+				} catch (NullPointerException e) {
+					continue;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
 	}
 }

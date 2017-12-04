@@ -18,6 +18,26 @@ public class Datos {
 			{ "2-2", "1-3", "1-0", "", "3-0" }, // SEV LOCAL
 			{ "0-0", "1-2", "2-1", "2-3", "" }, // UDLP LOCAL
 	};
+	private int[][] puntosJornada= {
+			//primera vuelta
+			{3,3,1,3,1},
+			{1,1,1,0,0},
+			{3,0,1,3,1},
+			{3,1,1,0,1},
+			//segunda vuelta
+			{3,3,1,3,1},
+			{1,1,1,0,0},
+			{3,0,1,3,1},
+			{3,1,1,0,1},
+	};
+	
+	public int[][] getPuntosJornada() {
+		return puntosJornada;
+	}
+
+	public void setPuntosJornada(int[][] puntosJornada) {
+		this.puntosJornada = puntosJornada;
+	}
 
 	public String[][] getResultados() {
 		return resultados;

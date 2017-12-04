@@ -3,6 +3,7 @@ package principal;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import auxiliar.Equipo;
 //import java.time.LocalDate;
 //import modelo.Estudiante;
 //import modelo.Profesor;
@@ -13,20 +14,43 @@ import modelo.Estudiante;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		String[][] resultados = new Datos().getResultados();
-		int[] puntuacion = practica.obtenerClasificacion(resultados);
-		for (int i : puntuacion) {
-			System.out.println(i);
-		}
-
+		int[][] matriz = { 
+				{ 3, 4, 8 }, 
+				{ 6 }, 
+				{ 5, 9 },
+		};
+		Integer[][] matriz2 = { 
+				{3,4,null,8}, 
+				{6,7,12,null,34}, 
+				{5,null,9},
+		};
+		//practica.recorrerMatrizIrregularPorColumna(matriz);
+		practica.recorrerMatrizIrregularPorColumna2(matriz2);
+		System.exit(0);
+		/*
+		 * int[] primos = practica.numerosPrimos(15); for (int primo : primos) {
+		 * System.out.println(primo); }
+		 */
+		/*
+		 * int[] fibos=practica.numeroFibonacci(10); for (int fibo : fibos) {
+		 * System.out.println(fibo); }
+		 */
+		/*
+		 * int[][] puntosJornada = new Datos().getPuntosJornada(); Equipo[]
+		 * clasificacion = practica.obtenerClasificacion3(puntosJornada); for (Equipo
+		 * equipo : clasificacion) {
+		 * System.out.println(equipo.getNombre()+" "+equipo.getPuntos()); }
+		 */
+		// int x=1;
+		// System.out.println("El numero "+ x + (practica.esPrimo(x)?" ES ":" NO ES
+		// ")+"PRIMO");
 		// int[] lista1 = {29,8,17,24,14,6,35};
 		// int[] lista2 = {50,40,8,23};
 		// int[] mezcla= practica.mezclaListas3(lista1, lista2);
 		// for (int mez : mezcla) {
 		// System.out.println(mez);
 		// }
-		 System.out.println(practica.validarNIF("45352356H"));
-			System.exit(0);
+		// System.out.println(practica.validarNIF("45352356H"));
 		/*
 		 * String[] cadenas = { "123", "42", "6x3", "111" }; int[] enteros =
 		 * practica.convierteCadenaANumeros(cadenas); for (int entero : enteros) {
