@@ -14,19 +14,13 @@ import modelo.Estudiante;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		int[][] matriz = { 
-				{ 3, 4, 8 }, 
-				{ 6 }, 
-				{ 5, 9 },
-		};
-		Integer[][] matriz2 = { 
-				{3,4,null,8}, 
-				{6,7,12,null,34}, 
-				{5,null,9},
-		};
-		//practica.recorrerMatrizIrregularPorColumna(matriz);
-		practica.recorrerMatrizIrregularPorColumna2(matriz2);
+
+		practica.listaEstudiantes(practica.introListas());
 		System.exit(0);
+		/*int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
+		Integer[][] matriz2 = { { 3, 4, null, 8 }, { 6, 7, 12, null, 34 }, { 5, null, 9 }, };
+		// practica.recorrerMatrizIrregularPorColumna(matriz);
+		practica.recorrerMatrizIrregularPorColumna2(matriz2);*/
 		/*
 		 * int[] primos = practica.numerosPrimos(15); for (int primo : primos) {
 		 * System.out.println(primo); }

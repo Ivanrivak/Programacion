@@ -1,6 +1,7 @@
 package auxiliar;
 
-import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import modelo.Datos;
@@ -8,6 +9,36 @@ import modelo.Estudiante;
 
 public class Practica {
 
+	// SEGUNDA EVALUACION
+	
+	public void listaEstudiantes(ArrayList<Estudiante> lista) {
+		for (Estudiante estudiante : lista) {
+			// if(estudiante != null)
+			try {
+				System.out.println("nombre: " + estudiante.getNombre());
+			} catch (NullPointerException e) {
+			}
+		}
+	}
+	
+	public ArrayList<Estudiante> introListas() {
+		ArrayList <Estudiante> listaE;
+		listaE = new ArrayList<Estudiante>();
+
+		Estudiante estAnonimo = new Estudiante(123);
+		Estudiante estudiante1 = new Estudiante(111, "44556677G","Carlos", 'M', LocalDate.now(), 187,40 );
+		Estudiante estudiante2 = new Estudiante(112, "11223344H","Xavier", 'M',LocalDate.now(), 147, 30);
+		Estudiante estudiante3 = new Estudiante(112,"99887766F","Marcos", 'M', LocalDate.now(), 163,50);
+		listaE.add(estAnonimo);
+		listaE.add(estudiante1);
+		listaE.add(estudiante2);
+		listaE.add(estudiante3);
+
+		return listaE;
+	}
+	
+	
+	// PRIMERA EVALUACION
 	public void muestraNumerosDe1a1000() {
 		int a = 1;
 		while (a <= 1000) {
