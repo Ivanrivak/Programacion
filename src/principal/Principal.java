@@ -1,6 +1,7 @@
 package principal;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import auxiliar.Equipo;
@@ -14,9 +15,61 @@ import modelo.Estudiante;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
+		
+		int[] numeros= {4,3,21,34,2};
+		ArrayList<Integer> lista1= new ArrayList<Integer>();
+		for (int numero : numeros) {
+			lista1.add(numero);
+		}
+		int[] numeros2= {6,2,4};
+		ArrayList<Integer> lista2= new ArrayList<Integer>();
+		for (int numero2 : numeros2) {
+			lista2.add(numero2);
+		}
+		
+		ArrayList<Integer>mezclas=practica.mezclaListas(lista1, lista2);
+		for (Integer mezcla : mezclas) {
+			System.out.println(mezcla);
+		}
+		System.exit(0);
+		
+/*		ArrayList<Estudiante> ordenar = practica.introListas();
+		practica.ordenaEstudiantes(ordenar);
+		for (Estudiante orden : ordenar) {
+			System.out.println(orden);
+		}
+		
+		
+		 String[] cadenas ={"Pipas","Pal","Pajaro","Vente","Para","Mi","Casa","Que","Tengo","Golosinas"};
+			ArrayList<String> listacadenas= new ArrayList<String>();
+			for (String cadena : cadenas) {
+				listacadenas.add(cadena);
+			}
+			
+		 practica.ordenaCadena(cadenas);
+		 	
+		int[] numeros= {4,3,21,34,2};
+		ArrayList<Integer> listanumeros= new ArrayList<Integer>();
+		for (int numero : numeros) {
+			listanumeros.add(numero);
+		}
+		practica.ordenaEnteros(listanumeros);
+		
+		ArrayList<Integer>frecuencias= practica.frecuenciaApariciones1(5, 1, 6);
+		//int[] frecuencias=practica.frecuenciaApariciones(5, 1,6 );
+		for (int frecuencia : frecuencias) {
+			System.out.println(frecuencia);
+		}
+		
+		//String[] cadenas = { "123", "42", "6x3", "111" };
+		ArrayList<Integer> lista=practica.convierteCadenaANumeros1(cadenas);
+		for (Integer list : lista) {
+			System.out.println(list);
+		}
 
 		practica.listaEstudiantes(practica.introListas());
-		System.exit(0);
+*/
+		// PRIMERA EVALUACION
 		/*int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
 		Integer[][] matriz2 = { { 3, 4, null, 8 }, { 6, 7, 12, null, 34 }, { 5, null, 9 }, };
 		// practica.recorrerMatrizIrregularPorColumna(matriz);
