@@ -1,26 +1,194 @@
 package auxiliar;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
+
 import modelo.Datos;
 import modelo.Estudiante;
+import modelo.Venta;
 
 public class Practica {
 
 	// SEGUNDA EVALUACION
+
+	public HashMap<String,ArrayList<Float>> resumenVentasVendedor(String ficheroVentas) {
+		HashMap <String,ArrayList<Float>> resultado = new HashMap<String,ArrayList<Float>>();
+		ArrayList<Venta> ventas= new ArrayList<Venta>();
+		ArrayList<Float> importes= new ArrayList<Float>();
+				try {
+					FileReader fr = new FileReader(ficheroVentas);
+					BufferedReader br = new BufferedReader(fr);
+					String linea;
+					while((linea = br.readLine()) !=null) {
+						String[]campos = linea.split("%");
+						ventas.add(new Venta(campos[0],campos[1],Float.parseFloat(campos[2])));
+					}
+					fr.close();
+					br.close();
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				for (int i = 0; i < ventas.size(); i++) {
+					resultado.put(ventas.get(i).getIdV(),importes);
+				}
+				for (int i = 0; i < resultado.size(); i++) {
+					//comprobar
+					for (int j = 0; j < ventas.size(); j++) {
+						ArrayList<Float> uno= resultado.get(ventas.get(i).getIdV());
+						String dos = ventas.get(j).getIdV();
+
+						if(resultado.get(ventas.get(i).getIdV()).equals(ventas.get(j).getIdV())) {
+						uno.add(ventas.get(j).getImporte());
+
+					}
+
+					}
+				}
+		
+		return resultado;
+	};
 	
+	//hashmap ficheros
+	public HashMap<String,String> leerFicherosHashMap(String nombreFichero){
+		HashMap <String,String> resultado = new HashMap<String,String>();
+		try {
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) !=null) {
+				String[] campos = linea.split("&&");
+				resultado.put(campos[0], linea);
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return resultado;
+	}
 	
+	//arraylist ficheros
+	public ArrayList<String> leerFicheroArrayList(String nombreFichero) {
+		ArrayList<String> resultado= new ArrayList<String>();
+		FileReader fr;
+		BufferedReader br;
+		try {
+			fr = new FileReader(nombreFichero);
+			br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) !=null) {
+				resultado.add(linea);
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
+	
+	public void leerFicheroTexto() {
+		try {
+			// Abrir el fichero
+			FileReader fr = new FileReader("ficheros/persona.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			LocalDate fechaHoy;
+			System.out.println(LocalDate.now());
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("&&");
+				System.out.println(linea);
+				System.out.println(calculaEdad(campos[2]));
+			}
+			// Cerrar fichero
+			fr.close();
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public int calculaEdad(String fechaNacimiento) { // ddmmaaaa
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("ddMMyyyy");
+		LocalDate fechaNac = LocalDate.parse(fechaNacimiento, fmt);
+		LocalDate ahora = LocalDate.now();
+
+		Period periodo = Period.between(fechaNac, ahora);
+		System.out.printf("Tu edad es: %s años, %s meses y %s días", periodo.getYears(), periodo.getMonths(),
+				periodo.getDays());
+		return periodo.getYears();
+	}
+
+	// MAPAS
+
+	public HashMap<String, Estudiante> introMapas() {
+		// la clave representa el nif del estudiante
+		HashMap<String, Estudiante> resultado = new HashMap<String, Estudiante>();
+
+		Estudiante est = new Estudiante(123, "435G", "Paco", 'M', null, 187, 40);
+		resultado.put(est.getNif(), est);
+
+		Estudiante est2 = new Estudiante(123, "435G", "Carlos", 'M', null, 187, 40);
+		// Estudiante estudiante = resultado.get("435G");
+
+		resultado.put("435G", est2);
+		resultado.put("123T", new Estudiante(123, "123T", "Pepe", 'M', null, 187, 40));
+
+		Set<String> claves = resultado.keySet();
+		for (String clave : claves) {
+			System.out.println(resultado.get(clave).getNombre());
+		}
+
+		return resultado;
+	}
+
+	// ARRAYLIST
+
+	public ArrayList<ArrayList<Integer>> convierteMatrizArrayLista(int[][] matriz) {
+		ArrayList<ArrayList<Integer>> arraylist = new ArrayList<ArrayList<Integer>>();
+		for (int[] array : matriz) {
+
+			ArrayList<Integer> filalista = new ArrayList<Integer>();
+			for (int elemento : array) {
+				filalista.add(elemento);
+			}
+			arraylist.add(filalista);
+		}
+		return arraylist;
+	}
+
 	public ArrayList<Estudiante> introListas() {
-		ArrayList <Estudiante> listaE;
+		ArrayList<Estudiante> listaE;
 		listaE = new ArrayList<Estudiante>();
 
 		Estudiante estAnonimo = new Estudiante(123);
-		Estudiante estudiante1 = new Estudiante(111, "44556677G","Carlos", 'M', LocalDate.now(), 187,40 );
-		Estudiante estudiante2 = new Estudiante(112, "11223344H","Xavier", 'M',LocalDate.now(), 147, 30);
-		Estudiante estudiante3 = new Estudiante(112,"99887766F","Marcos", 'M', LocalDate.now(), 163,50);
+		Estudiante estudiante1 = new Estudiante(111, "44556677G", "Carlos", 'M', LocalDate.now(), 187, 40);
+		Estudiante estudiante2 = new Estudiante(112, "11223344H", "Xavier", 'M', LocalDate.now(), 147, 30);
+		Estudiante estudiante3 = new Estudiante(112, "99887766F", "Marcos", 'M', LocalDate.now(), 163, 50);
 		listaE.add(estAnonimo);
 		listaE.add(estudiante1);
 		listaE.add(estudiante2);
@@ -28,8 +196,7 @@ public class Practica {
 
 		return listaE;
 	}
-	
-	
+
 	// PRIMERA EVALUACION
 	public void muestraNumerosDe1a1000() {
 		int a = 1;
@@ -120,7 +287,8 @@ public class Practica {
 
 		return numeros;
 	}
-	//arraylist
+
+	// arraylist
 	public ArrayList<Integer> generaAleatorio31(int cuantos, int inferior, int superior) {
 		Random random = new Random();
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
@@ -139,17 +307,17 @@ public class Practica {
 		}
 		return frecuencias;
 	}
-	
-	//arraylist
-	
+
+	// arraylist
+
 	public ArrayList<Integer> frecuenciaApariciones1(int cuantos, int inferior, int superior) {
 		ArrayList<Integer> frecuencias = new ArrayList<Integer>();
 		ArrayList<Integer> lanzamientos = this.generaAleatorio31(cuantos, inferior, superior);
-		for (int i = 0; i < lanzamientos.size()+1; i++) {
+		for (int i = 0; i < lanzamientos.size() + 1; i++) {
 			frecuencias.add(0);
 		}
 		for (int x = 0; x < lanzamientos.size(); x++) {
-			frecuencias.set(lanzamientos.get(x)-1, frecuencias.get(lanzamientos.get(x)-1)+1);
+			frecuencias.set(lanzamientos.get(x) - 1, frecuencias.get(lanzamientos.get(x) - 1) + 1);
 		}
 		return frecuencias;
 	}
@@ -172,7 +340,8 @@ public class Practica {
 			}
 		}
 	}
-	//ARRAY LIST
+
+	// ARRAY LIST
 	public void listaEstudiantes(ArrayList<Estudiante> lista) {
 		for (Estudiante estudiante : lista) {
 			// if(estudiante != null)
@@ -182,6 +351,7 @@ public class Practica {
 			}
 		}
 	}
+
 	public void listarTodos(Estudiante[][] todos) {
 		int contador = 0;
 		int contador2 = 0;
@@ -198,6 +368,27 @@ public class Practica {
 				if (todos[i][j] != null) {
 					System.out.println("nombre: " + todos[i][j].getNombre());
 					estudiantes2[contador2] = todos[i][j];
+					contador2++;
+				}
+			}
+		}
+		for (Estudiante estudiante : estudiantes2) {
+			System.out.println(estudiante);
+			;
+		}
+
+	}
+
+	// arraylist
+
+	public void listarTodos(ArrayList<ArrayList<Estudiante>> todos) {
+		int contador2 = 0;
+		ArrayList<Estudiante> estudiantes2 = new ArrayList<Estudiante>();
+		for (int i = 0; i < todos.size(); i++) {
+			for (int j = 0; j < todos.get(i).size(); j++) {
+				if (todos.get(i).get(j) != null) {
+					System.out.println("nombre: " + todos.get(i).get(j).getNombre());
+					estudiantes2.set(contador2, todos.get(i).get(j));
 					contador2++;
 				}
 			}
@@ -249,18 +440,20 @@ public class Practica {
 		}
 		return resultado;
 	}
-//ARRAYLIST
-	public ArrayList<Integer> convierteCadenaANumeros1(String[] cadenas) {
-		ArrayList<Integer> resultado=new ArrayList<Integer>();
-		for (int i = 0; i < cadenas.length; i++) {
+
+	// ARRAYLIST
+	public ArrayList<Integer> convierteCadenaANumeros(ArrayList<String> cadenas) {
+		ArrayList<Integer> resultado = new ArrayList<Integer>();
+		for (int i = 0; i < cadenas.size(); i++) {
 			try {
-				resultado.add(Integer.parseInt(cadenas[i]));
+				resultado.add(Integer.parseInt(cadenas.get(i)));
 			} catch (NumberFormatException e) {
 				resultado.add(-1);
 			}
 		}
 		return resultado;
 	}
+
 	public float calculaSaldo(float saldo, String[] movimientos) {
 		float resultado = saldo;
 		for (int i = 0; i < movimientos.length; i++) {
@@ -296,14 +489,15 @@ public class Practica {
 			System.out.println(numero);
 		}
 	}
-	//arraylist
+
+	// arraylist
 	public void ordenaEnteros(ArrayList<Integer> numeros) {
 		int aux;
 		for (int i = 0; i < numeros.size(); i++) {
 			for (int j = i + 1; j < numeros.size(); j++) {
 				if (numeros.get(i) > numeros.get(j)) {
 					aux = numeros.get(i);
-					numeros.set(i,numeros.get(j));
+					numeros.set(i, numeros.get(j));
 					numeros.set(j, aux);
 				}
 			}
@@ -312,8 +506,7 @@ public class Practica {
 			System.out.println(numero);
 		}
 	}
-	
-	
+
 	public void ordenaCadena(String[] cadenas) {
 		String aux;
 		for (int i = 0; i < cadenas.length; i++) {
@@ -329,15 +522,15 @@ public class Practica {
 			System.out.println(cadena);
 		}
 	}
-	
-	//arraylist
+
+	// arraylist
 	public void ordenaCadena(ArrayList<String> cadenas) {
 		String aux;
 		for (int i = 0; i < cadenas.size(); i++) {
 			for (int j = i + 1; j < cadenas.size(); j++) {
 				if (cadenas.get(i).compareTo(cadenas.get(j)) > 0) {
 					aux = cadenas.get(i);
-					cadenas.set(i,cadenas.get(j));
+					cadenas.set(i, cadenas.get(j));
 					cadenas.set(j, aux);
 				}
 			}
@@ -346,7 +539,7 @@ public class Practica {
 			System.out.println(cadena);
 		}
 	}
-	
+
 	public void ordenaEstudiantes(Estudiante[] estudiantes) {
 		for (int i = 0; i < estudiantes.length - 1; i++) {
 			for (int j = i + 1; j < estudiantes.length; j++) {
@@ -358,20 +551,20 @@ public class Practica {
 			}
 		}
 	}
-	//arraylist
-	
+	// arraylist
+
 	public void ordenaEstudiantes(ArrayList<Estudiante> estudiantes) {
 		for (int i = 0; i < estudiantes.size() - 1; i++) {
 			for (int j = i + 1; j < estudiantes.size(); j++) {
 				if (estudiantes.get(i).compareTo(estudiantes.get(j)) > 0) {
 					Estudiante aux = estudiantes.get(i);
-					estudiantes.set(i,estudiantes.get(j));
+					estudiantes.set(i, estudiantes.get(j));
 					estudiantes.set(j, aux);
 				}
 			}
 		}
 	}
-	
+
 	// Mezclar arrays de enteros eficientemente
 	public int[] mezclaListas(int[] lista1, int[] lista2) {
 		int[] mezcla = new int[lista1.length + lista2.length];
@@ -391,8 +584,8 @@ public class Practica {
 		Arrays.sort(mezcla);
 		return mezcla;
 	}
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Integer> mezclaListas(ArrayList<Integer> lista1, ArrayList<Integer> lista2) {
 		ArrayList<Integer> mezcla = new ArrayList<Integer>();
 		int i = 0;
@@ -408,11 +601,11 @@ public class Practica {
 			}
 			i++;
 		}
-		
+
 		Collections.sort(mezcla);
 		return mezcla;
 	}
-	
+
 	// Mezclar arrays de enteros menos eficiente
 	public int[] mezclaListas2(int[] lista1, int[] lista2) {
 		Arrays.sort(lista1);
@@ -436,8 +629,8 @@ public class Practica {
 		return mezcla;
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Integer> mezclaListas2(ArrayList<Integer> lista1, ArrayList<Integer> lista2) {
 		Collections.sort(lista1);
 		Collections.sort(lista2);
@@ -459,7 +652,7 @@ public class Practica {
 		}
 		return mezcla;
 	}
-	
+
 	// mezclar arrays de enteros menos eficiente por profe
 	public int[] mezclaListas3(int[] lista1, int[] lista2) {
 		Arrays.sort(lista1);
@@ -480,13 +673,13 @@ public class Practica {
 		}
 		return resultado;
 	}
-	
-	//arraylist
-	
+
+	// arraylist
+
 	public ArrayList<Integer> mezclaListas3(ArrayList<Integer> lista1, ArrayList<Integer> lista2) {
 		Collections.sort(lista1);
 		Collections.sort(lista2);
-		int i = 0, j = 0, k = 0;
+		int i = 0, j = 0; /* k = 0; */
 		ArrayList<Integer> resultado = new ArrayList<Integer>();
 		while (lista1.get(i) != Integer.MAX_VALUE || lista2.get(j) != Integer.MAX_VALUE) {
 			if (lista1.get(i) < lista2.get(j)) {
@@ -494,7 +687,7 @@ public class Practica {
 			} else {
 				resultado.add(lista2.get(j++));
 			}
-			k++;
+			/* k++; */
 			if (i == lista1.size())
 				lista1.add(Integer.MAX_VALUE);
 			if (j == lista2.size())
@@ -502,7 +695,7 @@ public class Practica {
 		}
 		return resultado;
 	}
-	
+
 	public boolean validarNIF(String nif) {
 		String[] Caracteres = { "T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q",
 				"V", "H", "L", "C", "K", "E" };
@@ -547,8 +740,8 @@ public class Practica {
 		return puntosEquipo;
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Integer> obtenerClasificacion1(String[][] resultados) {
 		ArrayList<Integer> puntosEquipo = new ArrayList<Integer>();
 		for (int i = 0; i < 5; i++) {
@@ -563,19 +756,19 @@ public class Practica {
 					golesLocal = Integer.parseInt(goles[0]);
 					golesVisitante = Integer.parseInt(goles[1]);
 					if (golesLocal > golesVisitante) {
-						puntosEquipo.set(i, puntosEquipo.get(i)+3);
+						puntosEquipo.set(i, puntosEquipo.get(i) + 3);
 					} else if (golesLocal < golesVisitante) {
-						puntosEquipo.set(j,puntosEquipo.get(j)+3);
+						puntosEquipo.set(j, puntosEquipo.get(j) + 3);
 					} else {
-						puntosEquipo.set(i,puntosEquipo.get(i)+1);
-						puntosEquipo.set(j,puntosEquipo.get(j)+1);
+						puntosEquipo.set(i, puntosEquipo.get(i) + 1);
+						puntosEquipo.set(j, puntosEquipo.get(j) + 1);
 					}
 				}
 			}
 		}
 		return puntosEquipo;
 	}
-	
+
 	public void ordenaClasificacion(int[] numeros, String[] equipos) {
 		for (int i = 0; i < numeros.length - 1; i++)
 			for (int j = i + 1; j < numeros.length; j++)
@@ -589,22 +782,21 @@ public class Practica {
 				}
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public void ordenaClasificacion(ArrayList<Integer> numeros, ArrayList<String> equipos) {
 		for (int i = 0; i < numeros.size() - 1; i++)
 			for (int j = i + 1; j < numeros.size(); j++)
 				if (numeros.get(i) < numeros.get(j)) {
 					int aux = numeros.get(i);
-					numeros.set(i,numeros.get(j));
-					numeros.set(j,aux);
+					numeros.set(i, numeros.get(j));
+					numeros.set(j, aux);
 					String aux2 = equipos.get(i);
-					equipos.set(i,equipos.get(j));
-					equipos.set(j,aux2);
+					equipos.set(i, equipos.get(j));
+					equipos.set(j, aux2);
 				}
 	}
-	
-	
+
 	public int[] obtenerClasificacion2(String[][] resultados) {
 		int[] puntosEquipo = new int[5];
 		int golesLocal;
@@ -628,9 +820,9 @@ public class Practica {
 		}
 		return puntosEquipo;
 	}
-	
-	//arraylist
-	
+
+	// arraylist
+
 	public ArrayList<Integer> obtenerClasificacion21(String[][] resultados) {
 		ArrayList<Integer> puntosEquipo = new ArrayList<Integer>();
 		for (int i = 0; i < 5; i++) {
@@ -645,12 +837,12 @@ public class Practica {
 					golesLocal = Integer.parseInt(goles[0]);
 					golesVisitante = Integer.parseInt(goles[1]);
 					if (golesLocal > golesVisitante) {
-						puntosEquipo.set(j, puntosEquipo.get(j)+3);
+						puntosEquipo.set(j, puntosEquipo.get(j) + 3);
 					} else if (golesLocal < golesVisitante) {
-						puntosEquipo.set(i,puntosEquipo.get(i)+3);
+						puntosEquipo.set(i, puntosEquipo.get(i) + 3);
 					} else {
-						puntosEquipo.set(j,puntosEquipo.get(j)+1);
-						puntosEquipo.set(i,puntosEquipo.get(i)+1);
+						puntosEquipo.set(j, puntosEquipo.get(j) + 1);
+						puntosEquipo.set(i, puntosEquipo.get(i) + 1);
 					}
 				}
 			}
@@ -674,8 +866,8 @@ public class Practica {
 		return clasificacion;
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Equipo> obtenerClasificacion31(int[][] puntosJornada) {
 		ArrayList<Equipo> clasificacion = new ArrayList<Equipo>();
 		for (int i = 0; i < 5; i++) {
@@ -694,7 +886,7 @@ public class Practica {
 		}
 		return clasificacion;
 	}
-	
+
 	public boolean esPrimo(int numero) {
 		for (int i = 2; i < numero; i++) {
 			if (numero % i == 0)
@@ -715,8 +907,8 @@ public class Practica {
 		return primos;
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Integer> numerosPrimos1(int cuantos) {
 		ArrayList<Integer> primos = new ArrayList<Integer>();
 		int i = 0;
@@ -729,7 +921,7 @@ public class Practica {
 		}
 		return primos;
 	}
-	
+
 	public int[] numeroFibonacci(int cuantos) {
 		int[] numeros = new int[cuantos];
 		int x = 0;
@@ -746,8 +938,8 @@ public class Practica {
 		return numeros;
 	}
 
-	//arraylist
-	
+	// arraylist
+
 	public ArrayList<Integer> numeroFibonacci1(int cuantos) {
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		for (int i = 0; i < cuantos; i++) {
@@ -756,17 +948,17 @@ public class Practica {
 		int x = 0;
 		int y = 1;
 		int z = 0;
-		numeros.set(0,x);
-		numeros.set(1,y);
+		numeros.set(0, x);
+		numeros.set(1, y);
 		for (int i = 0; i < numeros.size(); i++) {
 			z = x + y;
 			x = y;
 			y = z;
-			numeros.set(i,z);
+			numeros.set(i, z);
 		}
 		return numeros;
 	}
-	
+
 	public void recorrerMatrizIrregularPorColumna(int[][] matriz) {
 		int JMAX = 0;
 		// obtener el numero maximo de columnas.
@@ -779,6 +971,27 @@ public class Practica {
 			for (int i = 0; i < matriz.length; i++) {
 				try {
 					System.out.println("[" + i + "] [" + j + "]: " + matriz[i][j]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
+	}
+
+	// arraylist
+
+	public void recorrerMatrizIrregularPorColumna(ArrayList<ArrayList<Integer>> matriz) {
+		int JMAX = 0;
+		// obtener el numero maximo de columnas.
+		for (int i = 0; i < matriz.size(); i++) {
+			if (matriz.get(i).size() > JMAX)
+				JMAX = matriz.get(i).size();
+		}
+		// recorrer el array.
+		for (int j = 0; j < JMAX; j++) {
+			for (int i = 0; i < matriz.size(); i++) {
+				try {
+					System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j));
 				} catch (ArrayIndexOutOfBoundsException e) {
 					continue;
 				}
@@ -807,4 +1020,67 @@ public class Practica {
 			}
 		}
 	}
+
+	// arraylist
+
+	public void recorrerMatrizIrregularPorColumna2(ArrayList<ArrayList<Integer>> matriz) {
+		int JMAX = 0;
+		// obtener el numero maximo de columnas.
+		for (int i = 0; i < matriz.size(); i++) {
+			if (matriz.get(i).size() > JMAX)
+				JMAX = matriz.get(i).size();
+		}
+		// recorrer el array.
+		for (int j = 0; j < JMAX; j++) {
+			for (int i = 0; i < matriz.size(); i++) {
+				try {
+					System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j).toString());
+
+				} catch (NullPointerException e) {
+					continue;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
+	}
+
+	public int visitantesIslaYear(int isla, int[][] visitantesYear) {
+		int acu = 0;
+		for (int i = 0; i < visitantesYear[isla].length; i++) {
+			acu += visitantesYear[isla][i];
+
+		}
+		return acu;
+	}
+
+	// arraylist
+
+	public int visitantesIslaYear(int isla, ArrayList<ArrayList<Integer>> visitantesYear) {
+		int acu = 0;
+		for (int i = 0; i < visitantesYear.get(isla).size(); i++) {
+			acu += visitantesYear.get(isla).get(i);
+
+		}
+		return acu;
+	}
+
+	public int visitantesMesIslas(int mes, int[][] visitantesYear) {
+		int acu = 0;
+		for (int i = 0; i < visitantesYear.length; i++) {
+			acu += visitantesYear[i][mes - 1];
+		}
+		return acu;
+	}
+
+	// arraylist
+
+	public int visitantesMesIslas(int mes, ArrayList<ArrayList<Integer>> visitantesYear) {
+		int acu = 0;
+		for (int i = 0; i < visitantesYear.size(); i++) {
+			acu += visitantesYear.get(i).get(mes - 1);
+		}
+		return acu;
+	}
+
 }

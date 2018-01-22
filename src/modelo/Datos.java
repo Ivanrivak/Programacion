@@ -86,22 +86,8 @@ public class Datos {
 		estudiantes[2][9] = est3;
 	}
 
-	public int visitantesIslaYear(int isla, int[][] visitantesYear) {
-		int acu = 0;
-		for (int i = 0; i < visitantesYear[isla].length; i++) {
-			acu += visitantesYear[isla][i];
 
-		}
-		return acu;
-	}
 
-	public int visitantesMesIslas(int mes, int[][] visitantesYear) {
-		int acu = 0;
-		for (int i = 0; i < visitantesYear.length; i++) {
-			acu += visitantesYear[i][mes - 1];
-		}
-		return acu;
-	}
 
 	// hora puntual
 	public void reloj1() {

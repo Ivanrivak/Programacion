@@ -3,6 +3,8 @@ package principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
 
 import auxiliar.Equipo;
 //import java.time.LocalDate;
@@ -15,7 +17,45 @@ import modelo.Estudiante;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
+
+		practica.resumenVentasVendedor("ficheros/ventas.txt");
 		
+		
+		System.exit(0);
+		
+/*		practica.leerFicherosHashMap("ficheros/persona.txt");
+		ArrayList <String> resultado= practica.leerFicheroArrayList("ficheros/persona.txt");
+		for (String string : resultado) {
+			System.out.println(string);
+		}
+
+		
+		HashMap<String, Estudiante> mapa = practica.introMapas();
+		Estudiante noexisto = mapa.get("noexisto");
+		
+
+		
+	
+		
+		int[][] visitantesYear = {
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, 
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+			 };
+
+		ArrayList<ArrayList<Integer>> resultado= practica.convierteMatrizArrayLista(visitantesYear);
+		
+		for (ArrayList<Integer> numeros : resultado) {
+			System.out.println("FILAA");
+			for (int filas : numeros) {
+				System.out.println(filas);
+			}
+		}
+			
 		int[] numeros= {4,3,21,34,2};
 		ArrayList<Integer> lista1= new ArrayList<Integer>();
 		for (int numero : numeros) {
@@ -31,9 +71,8 @@ public class Principal {// método por el que debe empezar la ejecución
 		for (Integer mezcla : mezclas) {
 			System.out.println(mezcla);
 		}
-		System.exit(0);
-		
-/*		ArrayList<Estudiante> ordenar = practica.introListas();
+
+		ArrayList<Estudiante> ordenar = practica.introListas();
 		practica.ordenaEstudiantes(ordenar);
 		for (Estudiante orden : ordenar) {
 			System.out.println(orden);
@@ -62,7 +101,7 @@ public class Principal {// método por el que debe empezar la ejecución
 		}
 		
 		//String[] cadenas = { "123", "42", "6x3", "111" };
-		ArrayList<Integer> lista=practica.convierteCadenaANumeros1(cadenas);
+		ArrayList<Integer> lista=practica.convierteCadenaANumeros(cadenas);
 		for (Integer list : lista) {
 			System.out.println(list);
 		}
