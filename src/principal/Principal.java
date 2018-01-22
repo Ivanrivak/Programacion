@@ -18,9 +18,8 @@ public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
 
-		practica.resumenVentasVendedor("ficheros/ventas.txt");
-		
-		
+		HashMap<String, ArrayList<Float>> ventas = practica.resumenVentasVendedor("ficheros/ventas.txt");
+		practica.resumenVentasPorVendedor(ventas);
 		System.exit(0);
 		
 /*		practica.leerFicherosHashMap("ficheros/persona.txt");

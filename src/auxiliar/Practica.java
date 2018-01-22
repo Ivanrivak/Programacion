@@ -22,17 +22,33 @@ public class Practica {
 
 	// SEGUNDA EVALUACION
 
+	public HashMap<String,Float> resumenVentasPorVendedor(HashMap <String,ArrayList<Float>> ventas) {
+		HashMap<String,Float> resultado = new HashMap<String,Float>();
+		Set<String> claves = ventas.keySet();
+		for (String clave : claves) {
+			int acumulador=0;
+			Float precio = 0f;
+			for (int i = 0; i < ventas.get(clave).size(); i++) {
+				precio+=ventas.get(clave).get(i)+acumulador;
+
+			}
+			resultado.put(clave, precio);
+		}
+		return resultado;
+	}
+	
 	public HashMap<String,ArrayList<Float>> resumenVentasVendedor(String ficheroVentas) {
 		HashMap <String,ArrayList<Float>> resultado = new HashMap<String,ArrayList<Float>>();
-		ArrayList<Venta> ventas= new ArrayList<Venta>();
-		ArrayList<Float> importes= new ArrayList<Float>();
 				try {
 					FileReader fr = new FileReader(ficheroVentas);
 					BufferedReader br = new BufferedReader(fr);
 					String linea;
 					while((linea = br.readLine()) !=null) {
 						String[]campos = linea.split("%");
-						ventas.add(new Venta(campos[0],campos[1],Float.parseFloat(campos[2])));
+						if(resultado.get(campos[1]) == null) {
+							resultado.put(campos[1],new ArrayList<Float>());
+						}
+						resultado.get(campos[1]).add(Float.parseFloat(campos[2]));
 					}
 					fr.close();
 					br.close();
@@ -42,22 +58,6 @@ public class Practica {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
-				for (int i = 0; i < ventas.size(); i++) {
-					resultado.put(ventas.get(i).getIdV(),importes);
-				}
-				for (int i = 0; i < resultado.size(); i++) {
-					//comprobar
-					for (int j = 0; j < ventas.size(); j++) {
-						ArrayList<Float> uno= resultado.get(ventas.get(i).getIdV());
-						String dos = ventas.get(j).getIdV();
-
-						if(resultado.get(ventas.get(i).getIdV()).equals(ventas.get(j).getIdV())) {
-						uno.add(ventas.get(j).getImporte());
-
-					}
-
-					}
 				}
 		
 		return resultado;
@@ -111,20 +111,22 @@ public class Practica {
 		try {
 			// Abrir el fichero
 			FileReader fr = new FileReader("ficheros/persona.txt");
-			BufferedReader br = new BufferedReader(fr);
+			BufferedReader br = new BufferedReader(fr);;
 			String linea;
-			LocalDate fechaHoy;
-			System.out.println(LocalDate.now());
+			int contador=0;
+			int acumulado=0;
 			// Leer el fichero linea a linea
 			while ((linea = br.readLine()) != null) {
 				String[] campos = linea.split("&&");
-				System.out.println(linea);
-				System.out.println(calculaEdad(campos[2]));
+				//System.out.println(linea);
+				//System.out.println("tiene"+calculaEdad(campos[2]));
+				acumulado+= calculaEdad(campos[2]);
+				contador++;
 			}
 			// Cerrar fichero
 			fr.close();
 			br.close();
-
+			System.out.println("Edad Media: "+acumulado/contador);
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
@@ -138,8 +140,6 @@ public class Practica {
 		LocalDate ahora = LocalDate.now();
 
 		Period periodo = Period.between(fechaNac, ahora);
-		System.out.printf("Tu edad es: %s años, %s meses y %s días", periodo.getYears(), periodo.getMonths(),
-				periodo.getDays());
 		return periodo.getYears();
 	}
 
