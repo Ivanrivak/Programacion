@@ -1,28 +1,31 @@
 package principal;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
 
-import auxiliar.Equipo;
 //import java.time.LocalDate;
 //import modelo.Estudiante;
 //import modelo.Profesor;
 import auxiliar.Practica;
-import modelo.Datos;
-import modelo.Estudiante;
 
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-
+		float saldo=530.0f;
+		Float[] movimientos = { 150.52f, -25.0f,3f,40.0f,-15.0f };
+		ArrayList<Float> movimientosList= new ArrayList<Float>();
+		for (Float movimiento : movimientos) {
+			movimientosList.add(movimiento);
+		}
+		
+		System.out.println(practica.calculaSaldo(saldo, movimientosList));
+		System.exit(0);
+		/*
 		HashMap<String, ArrayList<Float>> ventas = practica.resumenVentasVendedor("ficheros/ventas.txt");
 		practica.resumenVentasPorVendedor(ventas);
-		System.exit(0);
+
 		
-/*		practica.leerFicherosHashMap("ficheros/persona.txt");
+		practica.leerFicherosHashMap("ficheros/persona.txt");
 		ArrayList <String> resultado= practica.leerFicheroArrayList("ficheros/persona.txt");
 		for (String string : resultado) {
 			System.out.println(string);

@@ -13,64 +13,61 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
-
 import modelo.Datos;
 import modelo.Estudiante;
-import modelo.Venta;
 
 public class Practica {
 
 	// SEGUNDA EVALUACION
-
-	public HashMap<String,Float> resumenVentasPorVendedor(HashMap <String,ArrayList<Float>> ventas) {
-		HashMap<String,Float> resultado = new HashMap<String,Float>();
+	
+	public HashMap<String, Float> resumenVentasPorVendedor(HashMap<String, ArrayList<Float>> ventas) {
+		HashMap<String, Float> resultado = new HashMap<String, Float>();
 		Set<String> claves = ventas.keySet();
 		for (String clave : claves) {
-			int acumulador=0;
+			int acumulador = 0;
 			Float precio = 0f;
 			for (int i = 0; i < ventas.get(clave).size(); i++) {
-				precio+=ventas.get(clave).get(i)+acumulador;
-
+				precio += ventas.get(clave).get(i) + acumulador;
 			}
 			resultado.put(clave, precio);
 		}
 		return resultado;
 	}
-	
-	public HashMap<String,ArrayList<Float>> resumenVentasVendedor(String ficheroVentas) {
-		HashMap <String,ArrayList<Float>> resultado = new HashMap<String,ArrayList<Float>>();
-				try {
-					FileReader fr = new FileReader(ficheroVentas);
-					BufferedReader br = new BufferedReader(fr);
-					String linea;
-					while((linea = br.readLine()) !=null) {
-						String[]campos = linea.split("%");
-						if(resultado.get(campos[1]) == null) {
-							resultado.put(campos[1],new ArrayList<Float>());
-						}
-						resultado.get(campos[1]).add(Float.parseFloat(campos[2]));
-					}
-					fr.close();
-					br.close();
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+
+	public HashMap<String, ArrayList<Float>> resumenVentasVendedor(String ficheroVentas) {
+		HashMap<String, ArrayList<Float>> resultado = new HashMap<String, ArrayList<Float>>();
+		try {
+			FileReader fr = new FileReader(ficheroVentas);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("%");
+				if (resultado.get(campos[1]) == null) {
+					resultado.put(campos[1], new ArrayList<Float>());
 				}
-		
+				resultado.get(campos[1]).add(Float.parseFloat(campos[2]));
+			}
+			fr.close();
+			br.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return resultado;
 	};
-	
-	//hashmap ficheros
-	public HashMap<String,String> leerFicherosHashMap(String nombreFichero){
-		HashMap <String,String> resultado = new HashMap<String,String>();
+
+	// hashmap ficheros
+	public HashMap<String, String> leerFicherosHashMap(String nombreFichero) {
+		HashMap<String, String> resultado = new HashMap<String, String>();
 		try {
 			FileReader fr = new FileReader(nombreFichero);
 			BufferedReader br = new BufferedReader(fr);
 			String linea;
-			while ((linea = br.readLine()) !=null) {
+			while ((linea = br.readLine()) != null) {
 				String[] campos = linea.split("&&");
 				resultado.put(campos[0], linea);
 			}
@@ -83,17 +80,17 @@ public class Practica {
 		}
 		return resultado;
 	}
-	
-	//arraylist ficheros
+
+	// arraylist ficheros
 	public ArrayList<String> leerFicheroArrayList(String nombreFichero) {
-		ArrayList<String> resultado= new ArrayList<String>();
+		ArrayList<String> resultado = new ArrayList<String>();
 		FileReader fr;
 		BufferedReader br;
 		try {
 			fr = new FileReader(nombreFichero);
 			br = new BufferedReader(fr);
 			String linea;
-			while ((linea = br.readLine()) !=null) {
+			while ((linea = br.readLine()) != null) {
 				resultado.add(linea);
 			}
 			fr.close();
@@ -106,27 +103,28 @@ public class Practica {
 
 		return resultado;
 	}
-	
+
 	public void leerFicheroTexto() {
 		try {
 			// Abrir el fichero
 			FileReader fr = new FileReader("ficheros/persona.txt");
-			BufferedReader br = new BufferedReader(fr);;
+			BufferedReader br = new BufferedReader(fr);
+			;
 			String linea;
-			int contador=0;
-			int acumulado=0;
+			int contador = 0;
+			int acumulado = 0;
 			// Leer el fichero linea a linea
 			while ((linea = br.readLine()) != null) {
 				String[] campos = linea.split("&&");
-				//System.out.println(linea);
-				//System.out.println("tiene"+calculaEdad(campos[2]));
-				acumulado+= calculaEdad(campos[2]);
+				// System.out.println(linea);
+				// System.out.println("tiene"+calculaEdad(campos[2]));
+				acumulado += calculaEdad(campos[2]);
 				contador++;
 			}
 			// Cerrar fichero
 			fr.close();
 			br.close();
-			System.out.println("Edad Media: "+acumulado/contador);
+			System.out.println("Edad Media: " + acumulado / contador);
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
@@ -289,7 +287,7 @@ public class Practica {
 	}
 
 	// arraylist
-	public ArrayList<Integer> generaAleatorio31(int cuantos, int inferior, int superior) {
+	public ArrayList<Integer> generaAleatorio3(Integer cuantos, Integer inferior, Integer superior) {
 		Random random = new Random();
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		for (int i = 0; i < cuantos; i++) {
@@ -310,9 +308,9 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Integer> frecuenciaApariciones1(int cuantos, int inferior, int superior) {
+	public ArrayList<Integer> frecuenciaApariciones(Integer cuantos, Integer inferior, Integer superior) {
 		ArrayList<Integer> frecuencias = new ArrayList<Integer>();
-		ArrayList<Integer> lanzamientos = this.generaAleatorio31(cuantos, inferior, superior);
+		ArrayList<Integer> lanzamientos = this.generaAleatorio3(cuantos, inferior, superior);
 		for (int i = 0; i < lanzamientos.size() + 1; i++) {
 			frecuencias.add(0);
 		}
@@ -465,6 +463,18 @@ public class Practica {
 		return resultado;
 	}
 
+	
+	//arraylist
+	public float calculaSaldo(float saldo, ArrayList<Float> movimientos) {
+		float resultado = saldo;
+		for (int i = 0; i < movimientos.size(); i++) {
+			try {
+				resultado += movimientos.get(i);
+			} catch (NumberFormatException e) {
+			}
+		}
+		return resultado;
+	}
 	public int sumaDigito(int numero) {
 		int resultado = 0;
 		while (numero != 0) {
@@ -909,7 +919,7 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Integer> numerosPrimos1(int cuantos) {
+	public ArrayList<Integer> numerosPrimos(Integer cuantos) {
 		ArrayList<Integer> primos = new ArrayList<Integer>();
 		int i = 0;
 		int j = 1;
@@ -940,7 +950,7 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Integer> numeroFibonacci1(int cuantos) {
+	public ArrayList<Integer> numeroFibonacci(Integer cuantos) {
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		for (int i = 0; i < cuantos; i++) {
 			numeros.add(0);
