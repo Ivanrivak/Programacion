@@ -11,6 +11,8 @@ import auxiliar.Practica;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
+		System.exit(0);
+		/*
 		float saldo=530.0f;
 		Float[] movimientos = { 150.52f, -25.0f,3f,40.0f,-15.0f };
 		ArrayList<Float> movimientosList= new ArrayList<Float>();
@@ -19,8 +21,6 @@ public class Principal {// método por el que debe empezar la ejecución
 		}
 		
 		System.out.println(practica.calculaSaldo(saldo, movimientosList));
-		System.exit(0);
-		/*
 		HashMap<String, ArrayList<Float>> ventas = practica.resumenVentasVendedor("ficheros/ventas.txt");
 		practica.resumenVentasPorVendedor(ventas);
 
