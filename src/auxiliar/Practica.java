@@ -19,6 +19,21 @@ import modelo.Estudiante;
 public class Practica {
 
 	// SEGUNDA EVALUACION
+
+	//ordenar arraylist
+	
+/*	public void ordenarArrayList(ArrayList<?> lista) {
+		for (int i = 0; i < lista.size() - 1; i++) {
+			for (int j = i + 1; j < lista.size(); j++) {
+				if( lista.get(i) )
+					if (lista.get(i).compareTo(lista.get(j))>0) {
+						String aux = lista.get(i);
+						lista.set(i, lista.get(j));
+						lista.set(j, aux);
+					}
+			}
+		}
+	}*/
 	
 	public HashMap<String, Float> resumenVentasPorVendedor(HashMap<String, ArrayList<Float>> ventas) {
 		HashMap<String, Float> resultado = new HashMap<String, Float>();
@@ -752,17 +767,24 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Integer> obtenerClasificacion1(String[][] resultados) {
+	public ArrayList<Integer> obtenerClasificacion(ArrayList<ArrayList<String>> resultados) {
 		ArrayList<Integer> puntosEquipo = new ArrayList<Integer>();
 		for (int i = 0; i < 5; i++) {
 			puntosEquipo.add(0);
 		}
 		int golesLocal;
 		int golesVisitante;
-		for (int i = 0; i < resultados.length; i++) {
-			for (int j = 0; j < resultados[i].length; j++) {
-				if (resultados[i][j].indexOf('-') != -1) {
-					String[] goles = resultados[i][j].split("-");
+		for (int i = 0; i < resultados.size(); i++) {
+			for (int j = 0; j < resultados.get(i).size(); j++) {
+
+				String[][] array = new String[resultados.size()][];
+				for (int k = 0; k < resultados.size(); k++) {
+				    ArrayList<String> row = resultados.get(k);
+				    array[k] = row.toArray(new String[row.size()]);
+				}
+				
+				if (array[i][j].indexOf('-') != -1) {
+					String[] goles = array[i][j].split("-");
 					golesLocal = Integer.parseInt(goles[0]);
 					golesVisitante = Integer.parseInt(goles[1]);
 					if (golesLocal > golesVisitante) {
@@ -833,17 +855,24 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Integer> obtenerClasificacion21(String[][] resultados) {
+	public ArrayList<Integer> obtenerClasificacion2(ArrayList<ArrayList<String>> resultados) {
 		ArrayList<Integer> puntosEquipo = new ArrayList<Integer>();
 		for (int i = 0; i < 5; i++) {
 			puntosEquipo.add(0);
 		}
 		int golesLocal;
 		int golesVisitante;
-		for (int i = 0; i < resultados.length; i++) {
-			for (int j = 0; j < resultados[i].length; j++) {
-				if (resultados[j][i].indexOf('-') != -1) {
-					String[] goles = resultados[j][i].split("-");
+		for (int i = 0; i < resultados.size(); i++) {
+			for (int j = 0; j < resultados.get(i).size(); j++) {
+				
+				String[][] array = new String[resultados.size()][];
+				for (int k = 0; k < resultados.size(); k++) {
+				    ArrayList<String> row = resultados.get(k);
+				    array[k] = row.toArray(new String[row.size()]);
+				}
+				
+				if (array[j][i].indexOf('-') != -1) {
+					String[] goles = array[j][i].split("-");
 					golesLocal = Integer.parseInt(goles[0]);
 					golesVisitante = Integer.parseInt(goles[1]);
 					if (golesLocal > golesVisitante) {
@@ -878,19 +907,19 @@ public class Practica {
 
 	// arraylist
 
-	public ArrayList<Equipo> obtenerClasificacion31(int[][] puntosJornada) {
+	public ArrayList<Equipo> obtenerClasificacion3(ArrayList<ArrayList<Integer>> puntosJornada) {
 		ArrayList<Equipo> clasificacion = new ArrayList<Equipo>();
 		for (int i = 0; i < 5; i++) {
 			clasificacion.add(null);
 		}
-		String[] equipo = new Datos().getEquipos();
-		for (int j = 0; j < puntosJornada[0].length; j++) {
+		ArrayList<String> equipo = new Datos().equiposlista();
+		for (int j = 0; j < puntosJornada.get(0).size(); j++) {
 			Equipo e = new Equipo();
 			e.setNombre(null);
 			e.setPuntos(0);
 			for (int i = 0; i < clasificacion.size(); i++) {
-				e.setNombre(equipo[j]);
-				e.setPuntos(e.getPuntos() + puntosJornada[i][j]);
+				e.setNombre(equipo.get(j));
+				e.setPuntos(e.getPuntos() + puntosJornada.get(i).get(j));
 				clasificacion.set(j, e);
 			}
 		}

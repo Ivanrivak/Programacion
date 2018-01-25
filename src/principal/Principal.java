@@ -3,16 +3,66 @@ package principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import auxiliar.Equipo;
 //import java.time.LocalDate;
 //import modelo.Estudiante;
 //import modelo.Profesor;
 import auxiliar.Practica;
+import modelo.Datos;
 
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
+		
+		
 		System.exit(0);
-		/*
+		/*	
+		int[][] puntosJornada = new Datos().getPuntosJornada();
+	
+		ArrayList<ArrayList<Integer>> puntosJornadaLista = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < puntosJornada.length; i++) {
+			puntosJornadaLista.add(new ArrayList<Integer>());
+			for (int j = 0; j < puntosJornada[i].length; j++) {
+				puntosJornadaLista.get(i).add(puntosJornada[i][j]);
+			}
+		}
+		Equipo[] puntos = practica.obtenerClasificacion3(puntosJornada);
+		ArrayList<Equipo> puntoslista = practica.obtenerClasificacion3(puntosJornadaLista);
+		
+		for (Equipo equipo : puntos) {
+			System.out.println(equipo.getNombre());
+		}
+		System.out.println("arraylist");
+		for (Equipo equipo : puntoslista) {
+			System.out.println(equipo.getNombre());
+		}
+
+		
+		String[][] resultados = {
+				{"","2-2","2-1","0-0","3-0"},
+				{"1-1","","0-0","1-1","1-1"},
+				{"0-3","3-2","","4-2","0-3"},
+				{"1-0","1-1","0-2","","1-2"},
+				{"2-1","2-1","1-0","","2-1"},
+		};
+		ArrayList<ArrayList<String>> resultadosLista = new ArrayList<ArrayList<String>>();
+		
+		for (int i = 0; i < resultados.length; i++) {
+			resultadosLista.add(new ArrayList<String>());
+			for (int j = 0; j < resultados[i].length; j++) {
+				resultadosLista.get(i).add(resultados[i][j]);
+			}
+		}
+		ArrayList<Integer> clasificacion = practica.obtenerClasificacion2(resultadosLista);
+		for (Integer integer : clasificacion) {
+			System.out.println(integer);
+		}
+System.out.println("array");
+		int[] clasificacion2 = practica.obtenerClasificacion2(resultados);
+		for (Integer integer : clasificacion2) {
+			System.out.println(integer);
+		}
+
 		float saldo=530.0f;
 		Float[] movimientos = { 150.52f, -25.0f,3f,40.0f,-15.0f };
 		ArrayList<Float> movimientosList= new ArrayList<Float>();

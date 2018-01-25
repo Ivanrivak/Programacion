@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,7 +87,15 @@ public class Datos {
 		estudiantes[2][9] = est3;
 	}
 
-
+	//equipos lista
+		public ArrayList<String> equiposlista() {
+			String[] equipos= new Datos().getEquipos();
+			ArrayList<String> equiposlista = new ArrayList<String>();
+			for (String equipo : equipos) {
+				equiposlista.add(equipo);
+			}
+			return equiposlista;
+		}
 
 
 	// hora puntual
