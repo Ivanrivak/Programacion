@@ -14,9 +14,21 @@ public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
 		
-		
 		System.exit(0);
-		/*	
+		
+		/*	int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
+		ArrayList<ArrayList<Integer>> matrizlista=new ArrayList<ArrayList<Integer>>();
+		
+		for (int i = 0; i < matriz.length; i++) {
+			matrizlista.add(new ArrayList<Integer>());
+			for (int j = 0; j < matriz[i].length; j++) {
+				matrizlista.get(i).add(matriz[i][j]);
+			}
+		}
+
+		practica.recorrerMatrizIrregularPorColumna2(matrizlista);
+
+		
 		int[][] puntosJornada = new Datos().getPuntosJornada();
 	
 		ArrayList<ArrayList<Integer>> puntosJornadaLista = new ArrayList<ArrayList<Integer>>();

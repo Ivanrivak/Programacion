@@ -1020,7 +1020,7 @@ public class Practica {
 	// arraylist
 
 	public void recorrerMatrizIrregularPorColumna(ArrayList<ArrayList<Integer>> matriz) {
-		int JMAX = 0;
+		int JMAX=0;
 		// obtener el numero maximo de columnas.
 		for (int i = 0; i < matriz.size(); i++) {
 			if (matriz.get(i).size() > JMAX)
@@ -1029,11 +1029,12 @@ public class Practica {
 		// recorrer el array.
 		for (int j = 0; j < JMAX; j++) {
 			for (int i = 0; i < matriz.size(); i++) {
-				try {
-					System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j));
-				} catch (ArrayIndexOutOfBoundsException e) {
-					continue;
-				}
+					try {
+						System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j));
+					} catch (IndexOutOfBoundsException e) {
+						continue;
+					}
+
 			}
 		}
 	}
@@ -1077,7 +1078,7 @@ public class Practica {
 
 				} catch (NullPointerException e) {
 					continue;
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} catch (IndexOutOfBoundsException e) {
 					continue;
 				}
 			}
