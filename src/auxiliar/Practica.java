@@ -1,9 +1,16 @@
 package auxiliar;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +27,24 @@ public class Practica {
 
 	// SEGUNDA EVALUACION
 
-	//ordenar arraylist
+	public void generaFicheroLanzamientosDado(int numero,String rutaFichero) {
+		int[] numeros = generaAleatorio3(numero, 1, 6);
+			try {
+				BufferedWriter bw= new BufferedWriter(new FileWriter(rutaFichero));
+				for (int i = 0; i < numeros.length; i++) {
+					bw.write(i+"&&"+numeros[i]+"&&"+System.currentTimeMillis());
+					bw.newLine();
+					Thread.sleep(1000);
+				}
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		
+	}
 	
 	public HashMap<String, Float> resumenVentasPorVendedor(HashMap<String, ArrayList<Float>> ventas) {
 		HashMap<String, Float> resultado = new HashMap<String, Float>();

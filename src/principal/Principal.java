@@ -8,7 +8,7 @@ import auxiliar.Practica;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		
+		practica.generaFicheroLanzamientosDado(5, "ficheros/lanzamientos.txt");
 		System.exit(0);
 		
 		/*	int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
