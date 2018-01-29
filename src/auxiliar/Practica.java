@@ -22,29 +22,15 @@ public class Practica {
 
 	//ordenar arraylist
 	
-/*	public void ordenarArrayList(ArrayList<?> lista) {
-		for (int i = 0; i < lista.size() - 1; i++) {
-			for (int j = i + 1; j < lista.size(); j++) {
-				if( lista.get(i) )
-					if (lista.get(i).compareTo(lista.get(j))>0) {
-						String aux = lista.get(i);
-						lista.set(i, lista.get(j));
-						lista.set(j, aux);
-					}
-			}
-		}
-	}*/
-	
 	public HashMap<String, Float> resumenVentasPorVendedor(HashMap<String, ArrayList<Float>> ventas) {
 		HashMap<String, Float> resultado = new HashMap<String, Float>();
 		Set<String> claves = ventas.keySet();
 		for (String clave : claves) {
-			int acumulador = 0;
-			Float precio = 0f;
+			Float acumulado = 0f;
 			for (int i = 0; i < ventas.get(clave).size(); i++) {
-				precio += ventas.get(clave).get(i) + acumulador;
+				acumulado += ventas.get(clave).get(i);
 			}
-			resultado.put(clave, precio);
+			resultado.put(clave, acumulado);
 		}
 		return resultado;
 	}

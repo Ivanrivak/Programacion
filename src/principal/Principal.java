@@ -1,14 +1,9 @@
 package principal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import auxiliar.Equipo;
 //import java.time.LocalDate;
 //import modelo.Estudiante;
 //import modelo.Profesor;
 import auxiliar.Practica;
-import modelo.Datos;
 
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
