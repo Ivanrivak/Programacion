@@ -8,10 +8,12 @@ import auxiliar.Practica;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		practica.generaFicheroLanzamientosDado(5, "ficheros/lanzamientos.txt");
+		practica.grabarObjetoEnFichero("ficheros/estudiantes.obj");
 		System.exit(0);
 		
-		/*	int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
+		/*	
+		 * practica.generaFicheroLanzamientosDado(5, "ficheros/lanzamientos.txt");
+		 	int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
 		ArrayList<ArrayList<Integer>> matrizlista=new ArrayList<ArrayList<Integer>>();
 		
 		for (int i = 0; i < matriz.length; i++) {

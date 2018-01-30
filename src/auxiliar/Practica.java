@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,25 +28,51 @@ public class Practica {
 
 	// SEGUNDA EVALUACION
 
-	public void generaFicheroLanzamientosDado(int numero,String rutaFichero) {
-		int[] numeros = generaAleatorio3(numero, 1, 6);
-			try {
-				BufferedWriter bw= new BufferedWriter(new FileWriter(rutaFichero));
-				for (int i = 0; i < numeros.length; i++) {
-					bw.write(i+"&&"+numeros[i]+"&&"+System.currentTimeMillis());
-					bw.newLine();
-					Thread.sleep(1000);
-				}
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+	public void grabarObjetoEnFichero(String fichero) {
+		Estudiante est = new Estudiante(1, "111G", "Paco1", 'M', null, 187, 40);
+		Estudiante est1 = new Estudiante(2, "222G", "Paco2", 'M', null, 187, 40);
+		Estudiante est2 = new Estudiante(3, "333G", "Paco3", 'M', null, 187, 40);
+		// abrir el fichero de objetos...
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(fichero));
 
-		
+			// guardar los objetos estudiantes en el fichero...
+
+			fObj.writeObject(est);
+			fObj.writeObject(est1);
+			fObj.writeObject(est2);
+			fObj.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			System.out.println("Error IO");
+			e.printStackTrace();
+		}
+		System.out.println("Fin del método");
+
 	}
+
 	
+	
+	public void generaFicheroLanzamientosDado(int numero, String rutaFichero) {
+		int[] numeros = generaAleatorio3(numero, 1, 6);
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFichero));
+			for (int i = 0; i < numeros.length; i++) {
+				bw.write(i + "&&" + numeros[i] + "&&" + System.currentTimeMillis());
+				bw.newLine();
+				Thread.sleep(1000);
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public HashMap<String, Float> resumenVentasPorVendedor(HashMap<String, ArrayList<Float>> ventas) {
 		HashMap<String, Float> resultado = new HashMap<String, Float>();
 		Set<String> claves = ventas.keySet();
@@ -488,8 +515,7 @@ public class Practica {
 		return resultado;
 	}
 
-	
-	//arraylist
+	// arraylist
 	public float calculaSaldo(float saldo, ArrayList<Float> movimientos) {
 		float resultado = saldo;
 		for (int i = 0; i < movimientos.size(); i++) {
@@ -500,6 +526,7 @@ public class Practica {
 		}
 		return resultado;
 	}
+
 	public int sumaDigito(int numero) {
 		int resultado = 0;
 		while (numero != 0) {
@@ -789,10 +816,10 @@ public class Practica {
 
 				String[][] array = new String[resultados.size()][];
 				for (int k = 0; k < resultados.size(); k++) {
-				    ArrayList<String> row = resultados.get(k);
-				    array[k] = row.toArray(new String[row.size()]);
+					ArrayList<String> row = resultados.get(k);
+					array[k] = row.toArray(new String[row.size()]);
 				}
-				
+
 				if (array[i][j].indexOf('-') != -1) {
 					String[] goles = array[i][j].split("-");
 					golesLocal = Integer.parseInt(goles[0]);
@@ -874,13 +901,13 @@ public class Practica {
 		int golesVisitante;
 		for (int i = 0; i < resultados.size(); i++) {
 			for (int j = 0; j < resultados.get(i).size(); j++) {
-				
+
 				String[][] array = new String[resultados.size()][];
 				for (int k = 0; k < resultados.size(); k++) {
-				    ArrayList<String> row = resultados.get(k);
-				    array[k] = row.toArray(new String[row.size()]);
+					ArrayList<String> row = resultados.get(k);
+					array[k] = row.toArray(new String[row.size()]);
 				}
-				
+
 				if (array[j][i].indexOf('-') != -1) {
 					String[] goles = array[j][i].split("-");
 					golesLocal = Integer.parseInt(goles[0]);
@@ -1030,7 +1057,7 @@ public class Practica {
 	// arraylist
 
 	public void recorrerMatrizIrregularPorColumna(ArrayList<ArrayList<Integer>> matriz) {
-		int JMAX=0;
+		int JMAX = 0;
 		// obtener el numero maximo de columnas.
 		for (int i = 0; i < matriz.size(); i++) {
 			if (matriz.get(i).size() > JMAX)
@@ -1039,11 +1066,11 @@ public class Practica {
 		// recorrer el array.
 		for (int j = 0; j < JMAX; j++) {
 			for (int i = 0; i < matriz.size(); i++) {
-					try {
-						System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j));
-					} catch (IndexOutOfBoundsException e) {
-						continue;
-					}
+				try {
+					System.out.println("[" + i + "] [" + j + "]: " + matriz.get(i).get(j));
+				} catch (IndexOutOfBoundsException e) {
+					continue;
+				}
 
 			}
 		}
