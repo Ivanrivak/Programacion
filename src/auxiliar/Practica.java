@@ -3,18 +3,22 @@ package auxiliar;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,11 +27,101 @@ import java.util.Random;
 import java.util.Set;
 import modelo.Datos;
 import modelo.Estudiante;
+import modelo.Vehiculo;
 
 public class Practica {
 
 	// SEGUNDA EVALUACION
 
+	public void grabarVehiculoEnFichero(ArrayList<Vehiculo> listaVehiculo,String fichero) {
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(fichero));
+
+			for (Vehiculo vehiculo : listaVehiculo) {
+				fObj.writeObject(vehiculo);	
+			}
+
+			fObj.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("fichero creado en la ruta: "+fichero);
+	}
+	
+	//GENERAR ARRAY LIST DE VEHICULOS
+	public ArrayList<Vehiculo> grabarVehiculosDesdeFichero(String fichero){
+		ArrayList<Vehiculo> resultado = new ArrayList<Vehiculo>();
+		try {
+			FileReader fr = new FileReader(fichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("&&");
+				DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyyMMdd");
+				LocalDate fecha = LocalDate.parse(campos[3],formato);
+				Vehiculo vehiculo = new Vehiculo(Integer.parseInt(campos[0]),campos[1],campos[2],fecha,Float.parseFloat(campos[4]));
+				resultado.add(vehiculo);
+			}
+			fr.close();
+			br.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public void grabarObjetoEnFichero2(String fichero) {
+		ArrayList <Estudiante> listaEst=new ArrayList<Estudiante>();
+		Estudiante est = new Estudiante(1, "111G", "Paco1", 'M', null, 187, 40);
+		Estudiante est1 = new Estudiante(2, "222G", "Paco2", 'M', null, 187, 40);
+		Estudiante est2 = new Estudiante(3, "333G", "Paco3", 'M', null, 187, 40);
+		listaEst.add(est);
+		listaEst.add(est1);
+		listaEst.add(est2);
+		// abrir el fichero de objetos...
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(fichero));
+
+			// guardar los objetos estudiantes en el fichero...
+
+			fObj.writeObject(listaEst);
+			fObj.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			System.out.println("Error IO");
+			e.printStackTrace();
+		}
+		System.out.println("Fichero creado");
+	}
+	
+	public void leeObjetosDesdeFichero2(String fichero) {
+		try {
+			FileInputStream fi = new FileInputStream(fichero);
+			ObjectInputStream fObj = new ObjectInputStream(fi);
+			ArrayList<Estudiante> est = new ArrayList<Estudiante>();
+			while(fi.available() >0) {
+				est = (ArrayList<Estudiante>) fObj.readObject();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void grabarObjetoEnFichero(String fichero) {
 		Estudiante est = new Estudiante(1, "111G", "Paco1", 'M', null, 187, 40);
 		Estudiante est1 = new Estudiante(2, "222G", "Paco2", 'M', null, 187, 40);
@@ -49,11 +143,32 @@ public class Practica {
 			System.out.println("Error IO");
 			e.printStackTrace();
 		}
-		System.out.println("Fin del método");
+		System.out.println("Fichero creado");
 
 	}
 
-	
+	public void leeObjetosDesdeFichero(String fichero){
+		try {
+			FileInputStream fi = new FileInputStream(fichero);
+			ObjectInputStream fObj = new ObjectInputStream(fi);
+			//recorrer el fichero
+			Estudiante est = null;
+			while(fi.available() > 0) {
+			 est = (Estudiante) fObj.readObject();
+			System.out.println(est.getCodigoGrupo()+","+est.getNombre());
+			}
+			fi.close();
+			fObj.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Fichero leído");
+	}
 	
 	public void generaFicheroLanzamientosDado(int numero, String rutaFichero) {
 		int[] numeros = generaAleatorio3(numero, 1, 6);

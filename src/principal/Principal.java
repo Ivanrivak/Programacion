@@ -1,17 +1,23 @@
 package principal;
 
+import java.util.ArrayList;
+
 //import java.time.LocalDate;
 //import modelo.Estudiante;
 //import modelo.Profesor;
 import auxiliar.Practica;
+import modelo.Vehiculo;
 
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		practica.grabarObjetoEnFichero("ficheros/estudiantes.obj");
+		ArrayList<Vehiculo> vehiculos = practica.grabarVehiculosDesdeFichero("ficheros/vehiculos.txt");
+		practica.grabarVehiculoEnFichero(vehiculos, "ficheros/vehiculos.obj");
 		System.exit(0);
 		
 		/*	
+		 * practica.grabarObjetoEnFichero("ficheros/estudiantes.obj");
+			practica.leeObjetosDesdeFichero("ficheros/estudiantes.obj");
 		 * practica.generaFicheroLanzamientosDado(5, "ficheros/lanzamientos.txt");
 		 	int[][] matriz = { { 3, 4, 8 }, { 6 }, { 5, 9 }, };
 		ArrayList<ArrayList<Integer>> matrizlista=new ArrayList<ArrayList<Integer>>();

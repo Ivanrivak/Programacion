@@ -1,9 +1,8 @@
 package modelo;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Estudiante extends Persona implements Serializable,Comparable<Estudiante>{
+public class Estudiante extends Persona implements Comparable<Estudiante>{
 	/**
 	 * 
 	 */
