@@ -33,12 +33,183 @@ public class Practica {
 
 	// SEGUNDA EVALUACION
 
-	public void grabarVehiculoEnFichero(ArrayList<Vehiculo> listaVehiculo,String fichero) {
+	// GRABAR FICHERO TXT DE ESTUDIANTES EN FICHERO OBJ
+
+	public String obtenerLineaDeEstudiante(Estudiante est) {
+		String resultado = est.getCodigoGrupo() + "#" + est.getNif() + "#" + est.getNombre() + "#" + est.getSexo() + "#"
+				+ est.getFecha() + "#" + est.getAltura() + "\n";
+		return resultado;
+	}
+
+	public void copiaEstudiantesObjATxt(String ficheroEntrada, String ficheroSalida) {
+		try {
+			//abrir el fichero de entrada
+			FileInputStream fIs = new FileInputStream(ficheroEntrada);
+			ObjectInputStream fObj = new ObjectInputStream(fIs);
+			// abrir el fichero de salida
+			FileWriter fWr = new FileWriter(ficheroSalida);
+			BufferedWriter bWr = new BufferedWriter(fWr);
+			Estudiante est;
+			while (fIs.available() > 0) {
+				est = (Estudiante) fObj.readObject();
+				String linea = obtenerLineaDeEstudiante(est);
+				bWr.write(linea);
+			}
+			bWr.close();
+			fWr.close();
+			fIs.close();
+			fObj.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Fichero creado en la ruta:\n"+ficheroSalida);
+	}
+
+	public Estudiante crearEstudianteLeido(String[] datos) {
+		int grupo = Integer.parseInt(datos[0]);
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+		LocalDate fechaNac = LocalDate.parse(datos[4], fmt);
+		Estudiante estudiante = new Estudiante(grupo);
+		estudiante.setNif(datos[1]);
+		estudiante.setNombre(datos[2]);
+		estudiante.setSexo(datos[3].charAt(0));
+		estudiante.setFecha(fechaNac);
+		estudiante.setAltura(Integer.parseInt(datos[5]));
+		return estudiante;
+	}
+
+	public void copiaEstudianteTxtAObjeto2(String rutaTxt, String rutaObj) {
+		try {
+			// abrir el fichero de entrada
+			FileReader fr = new FileReader(rutaTxt);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			// abrir el fichero de salida
+			FileOutputStream fIs = new FileOutputStream(rutaObj);
+			ObjectOutputStream fObj = new ObjectOutputStream(fIs);
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("#");
+				// crear estudiante a partir del registro leido
+				Estudiante estudiante = crearEstudianteLeido(campos);
+				// grabar objeto estudiante en fichero
+				fObj.writeObject(estudiante);
+			}
+			fr.close();
+			br.close();
+			fIs.close();
+			fObj.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void copiaEstudianteTxtAObjeto(String fichero, String fichero2) {
+		try {
+			FileReader fr;
+			BufferedReader br;
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(fichero2));
+			fr = new FileReader(fichero);
+			br = new BufferedReader(fr);
+			String linea;
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("#");
+				LocalDate fechaNac = LocalDate.parse(campos[4], fmt);
+				Estudiante est = new Estudiante(Integer.parseInt(campos[0]), campos[1], campos[2], campos[3].charAt(0),
+						fechaNac, Integer.parseInt(campos[5]), null, null);
+				fObj.writeObject(est);
+			}
+			fObj.close();
+			fr.close();
+			br.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void listadoIslasMeses(String fichero) {
+		ArrayList<Float> visitantesIsla;
+		HashMap<Integer, ArrayList<Float>> hm = visitantesIslaMes(fichero);
+		String[] islas = { "GRAN CANARIA", "LANZAROTE", "FUERTEVENTURA", "TENERIFE", "LA PALMA", "LA GOMERA",
+				"EL HIERRO" };
+		String[] meses = { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIE",
+				"OCTUBRE", "NOVIEM", "DICIEMBRE" };
+		Set<Integer> claves = hm.keySet();
+		float acumuladoMes[] = new float[12];
+		System.out.print("\t\t");
+		for (int i = 0; i < meses.length; i++) {
+			System.out.print(meses[i] + "\t");
+		}
+		System.out.println();
+		for (Integer clave : claves) {
+			visitantesIsla = hm.get(clave);
+			System.out.print(islas[clave] + "\t");
+			float acumuladoIsla = 0f;
+			for (int i = 0; i < visitantesIsla.size(); i++) {
+				acumuladoIsla += visitantesIsla.get(i);
+				acumuladoMes[i] += visitantesIsla.get(i);
+				System.out.printf("%.0f \t", visitantesIsla.get(i) * 1000);
+			}
+			System.out.print("\t total visitantes " + islas[clave] + " = " + acumuladoIsla + "\n");
+		}
+		System.out.print("\t\t");
+		for (Float valor : acumuladoMes) {
+			System.out.printf("%.2f\t", valor);
+		}
+	}
+
+	public void inicializaVisitantesIsla(HashMap<Integer, ArrayList<Float>> resultado) {
+		for (int isla = 0; isla < 7; isla++) {
+			resultado.put(isla, new ArrayList<Float>());
+			for (int j = 0; j < 12; j++) {
+				resultado.get(isla).add(0f);
+			}
+		}
+	}
+
+	public HashMap<Integer, ArrayList<Float>> visitantesIslaMes(String fichero) {
+		HashMap<Integer, ArrayList<Float>> resultado = new HashMap<Integer, ArrayList<Float>>();
+		try {
+			FileReader fr = new FileReader(fichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			inicializaVisitantesIsla(resultado);
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("@");
+				Integer isla = Integer.parseInt(campos[0]);
+				resultado.get(isla - 1).set(Integer.parseInt(campos[1]) - 1, Float.parseFloat(campos[2]));
+			}
+			br.close();
+			fr.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
+
+	public void grabarVehiculoEnFichero(ArrayList<Vehiculo> listaVehiculo, String fichero) {
 		try {
 			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(fichero));
 
 			for (Vehiculo vehiculo : listaVehiculo) {
-				fObj.writeObject(vehiculo);	
+				fObj.writeObject(vehiculo);
 			}
 
 			fObj.close();
@@ -47,11 +218,11 @@ public class Practica {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("fichero creado en la ruta: "+fichero);
+		System.out.println("fichero creado en la ruta: " + fichero);
 	}
-	
-	//GENERAR ARRAY LIST DE VEHICULOS
-	public ArrayList<Vehiculo> grabarVehiculosDesdeFichero(String fichero){
+
+	// GENERAR ARRAY LIST DE VEHICULOS
+	public ArrayList<Vehiculo> grabarVehiculosDesdeFichero(String fichero) {
 		ArrayList<Vehiculo> resultado = new ArrayList<Vehiculo>();
 		try {
 			FileReader fr = new FileReader(fichero);
@@ -60,8 +231,9 @@ public class Practica {
 			while ((linea = br.readLine()) != null) {
 				String[] campos = linea.split("&&");
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyyMMdd");
-				LocalDate fecha = LocalDate.parse(campos[3],formato);
-				Vehiculo vehiculo = new Vehiculo(Integer.parseInt(campos[0]),campos[1],campos[2],fecha,Float.parseFloat(campos[4]));
+				LocalDate fecha = LocalDate.parse(campos[3], formato);
+				Vehiculo vehiculo = new Vehiculo(Integer.parseInt(campos[0]), campos[1], campos[2], fecha,
+						Float.parseFloat(campos[4]));
 				resultado.add(vehiculo);
 			}
 			fr.close();
@@ -75,9 +247,9 @@ public class Practica {
 		}
 		return resultado;
 	}
-	
+
 	public void grabarObjetoEnFichero2(String fichero) {
-		ArrayList <Estudiante> listaEst=new ArrayList<Estudiante>();
+		ArrayList<Estudiante> listaEst = new ArrayList<Estudiante>();
 		Estudiante est = new Estudiante(1, "111G", "Paco1", 'M', null, 187, 40);
 		Estudiante est1 = new Estudiante(2, "222G", "Paco2", 'M', null, 187, 40);
 		Estudiante est2 = new Estudiante(3, "333G", "Paco3", 'M', null, 187, 40);
@@ -101,27 +273,24 @@ public class Practica {
 		}
 		System.out.println("Fichero creado");
 	}
-	
+
 	public void leeObjetosDesdeFichero2(String fichero) {
 		try {
 			FileInputStream fi = new FileInputStream(fichero);
 			ObjectInputStream fObj = new ObjectInputStream(fi);
 			ArrayList<Estudiante> est = new ArrayList<Estudiante>();
-			while(fi.available() >0) {
+			while (fi.available() > 0) {
 				est = (ArrayList<Estudiante>) fObj.readObject();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void grabarObjetoEnFichero(String fichero) {
 		Estudiante est = new Estudiante(1, "111G", "Paco1", 'M', null, 187, 40);
 		Estudiante est1 = new Estudiante(2, "222G", "Paco2", 'M', null, 187, 40);
@@ -147,15 +316,15 @@ public class Practica {
 
 	}
 
-	public void leeObjetosDesdeFichero(String fichero){
+	public void leeObjetosDesdeFichero(String fichero) {
 		try {
 			FileInputStream fi = new FileInputStream(fichero);
 			ObjectInputStream fObj = new ObjectInputStream(fi);
-			//recorrer el fichero
+			// recorrer el fichero
 			Estudiante est = null;
-			while(fi.available() > 0) {
-			 est = (Estudiante) fObj.readObject();
-			System.out.println(est.getCodigoGrupo()+","+est.getNombre());
+			while (fi.available() > 0) {
+				est = (Estudiante) fObj.readObject();
+				System.out.println(est.getCodigoGrupo() + "," + est.getNombre());
 			}
 			fi.close();
 			fObj.close();
@@ -169,7 +338,7 @@ public class Practica {
 		}
 		System.out.println("Fichero leído");
 	}
-	
+
 	public void generaFicheroLanzamientosDado(int numero, String rutaFichero) {
 		int[] numeros = generaAleatorio3(numero, 1, 6);
 		try {
@@ -276,7 +445,6 @@ public class Practica {
 			// Abrir el fichero
 			FileReader fr = new FileReader("ficheros/persona.txt");
 			BufferedReader br = new BufferedReader(fr);
-			;
 			String linea;
 			int contador = 0;
 			int acumulado = 0;
@@ -292,6 +460,41 @@ public class Practica {
 			fr.close();
 			br.close();
 			System.out.println("Edad Media: " + acumulado / contador);
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void leerFicheroTextoOrdenadoClave(String rutaFichero) {
+		try {
+			// Abrir el fichero
+			FileReader fr = new FileReader(rutaFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String codigo_leido, codigo_anterior = null;
+			int contador_grupo = 0;
+			int contador_total = 0;
+			String linea;
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("&&");
+				codigo_leido = campos[0];
+				if (codigo_anterior == null)
+					codigo_anterior = codigo_leido;
+				if (!codigo_leido.equals(codigo_anterior)) {
+					System.out.println("Hay " + contador_grupo + " alumnos en el grupo " + codigo_anterior);
+					contador_total += contador_grupo;
+					contador_grupo = 0;
+					codigo_anterior = codigo_leido;
+				}
+				contador_grupo++;
+			}
+			System.out.println("Hay " + contador_grupo + " alumnos en el grupo " + codigo_anterior);
+			contador_total += contador_grupo;
+			System.out.println("Hay " + contador_total + " alumnos en total");
+			fr.close();
+			br.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {

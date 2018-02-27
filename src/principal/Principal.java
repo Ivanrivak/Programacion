@@ -1,6 +1,8 @@
 package principal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 //import java.time.LocalDate;
 //import modelo.Estudiante;
@@ -11,11 +13,18 @@ import modelo.Vehiculo;
 public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
-		ArrayList<Vehiculo> vehiculos = practica.grabarVehiculosDesdeFichero("ficheros/vehiculos.txt");
-		practica.grabarVehiculoEnFichero(vehiculos, "ficheros/vehiculos.obj");
+		practica.copiaEstudiantesObjATxt("ficheros/estudiantes.obj", "ficheros/estudiante.txt");
+		//practica.copiaEstudianteTxtAObjeto("ficheros/estudiantes.txt", "ficheros/estudiantes.obj");
 		System.exit(0);
-		
-		/*	
+		/*
+		 * 		practica.leerFicheroTextoOrdenadoClave("ficheros/estudiantesPorGrupo.txt");		
+		HashMap<Integer, ArrayList<Float>> visitantesisla = practica.visitantesIslaMes("ficheros/visitantesisla.txt");
+		practica.listadoIslasMeses("ficheros/visitantesisla.txt");
+
+	
+		 *	ArrayList<Vehiculo> vehiculos = practica.grabarVehiculosDesdeFichero("ficheros/vehiculos.txt");
+			practica.grabarVehiculoEnFichero(vehiculos, "ficheros/vehiculos.obj");
+
 		 * practica.grabarObjetoEnFichero("ficheros/estudiantes.obj");
 			practica.leeObjetosDesdeFichero("ficheros/estudiantes.obj");
 		 * practica.generaFicheroLanzamientosDado(5, "ficheros/lanzamientos.txt");
@@ -263,7 +272,7 @@ System.out.println("array");
 		// { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, };
 		// int isla = 0;
 		// int mes = 12;
-		// String[] islas = { "GC", "FTV", "LZT", "TNR", "PL", "H", "G" };
+		// String[] islas = { "GC", "LTE","FTV", "TFE", "LPA", "GOM", "HIE"};
 		// String[] meses = { "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO",
 		// "SEP", "OCT", "NOV", "DIC" };
 		// Datos datos = new Datos();

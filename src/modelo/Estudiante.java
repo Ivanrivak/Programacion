@@ -18,6 +18,11 @@ public class Estudiante extends Persona implements Comparable<Estudiante>{
 		this.codigoGrupo = codigoGrupo;
 	}
 
+	public Estudiante(int codigoGrupo,String nif, String nombre, char sexo, LocalDate fecha, int altura, Persona padre, Persona madre) {
+		super(nif, nombre, sexo, fecha, altura, padre, madre);
+		this.codigoGrupo = codigoGrupo;
+	}
+
 	public int getCodigoGrupo() {
 		return codigoGrupo;
 	}

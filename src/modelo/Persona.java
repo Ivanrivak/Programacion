@@ -102,6 +102,18 @@ public abstract class Persona implements Serializable
 		contador++;
 	}
 
+	public Persona(String nif, String nombre, char sexo, LocalDate fecha, int altura,Persona padre,
+			Persona madre) {
+		super();
+		this.nif = nif;
+		this.nombre = nombre;
+		this.sexo = sexo;
+		this.fecha = fecha;
+		this.altura = altura;
+		this.padre = padre;
+		this.madre = madre;
+		contador++;
+	}
 	public float caminar (int numPasos) //cabecera, declaración, prototipo o firma
 	//Implementación
 	{ 
