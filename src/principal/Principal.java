@@ -14,8 +14,8 @@ public class Principal {// método por el que debe empezar la ejecución
 	public static void main(String[] args) {
 		Practica practica = new Practica();
 		practica.copiaEstudiantesObjATxt("ficheros/estudiantes.obj", "ficheros/estudiante.txt");
-		//practica.copiaEstudianteTxtAObjeto("ficheros/estudiantes.txt", "ficheros/estudiantes.obj");
 		System.exit(0);
+		//practica.copiaEstudianteTxtAObjeto("ficheros/estudiantes.txt", "ficheros/estudiantes.obj");
 		/*
 		 * 		practica.leerFicheroTextoOrdenadoClave("ficheros/estudiantesPorGrupo.txt");		
 		HashMap<Integer, ArrayList<Float>> visitantesisla = practica.visitantesIslaMes("ficheros/visitantesisla.txt");
